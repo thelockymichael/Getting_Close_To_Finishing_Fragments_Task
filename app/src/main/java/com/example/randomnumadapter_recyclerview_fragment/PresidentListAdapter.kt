@@ -1,19 +1,17 @@
 package com.example.randomnumadapter_recyclerview_fragment
 
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
-import kotlin.collections.ArrayList
 
 
-class RandomNumListAdapter(
+
+class PresidentListAdapter(
     private val presidents: MutableList<President>,
     private val listener: OnItemClickListener
-) : RecyclerView.Adapter<RandomNumListAdapter.RecyclerViewHolder>() {
+) : RecyclerView.Adapter<PresidentListAdapter.RecyclerViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.frame_textview
@@ -29,12 +27,7 @@ class RandomNumListAdapter(
 
         val president: President = presidents[position]
 
-        holder.view.text = president.name
-
-
-//        holder.view.text = random.nextInt().toString()
-
-
+        holder.view.text = "${president.name}, ${president.startOfPresidency} - ${president.endOfPresidency}"
     }
 
      override fun getItemCount(): Int {

@@ -1,28 +1,44 @@
 package com.example.randomnumadapter_recyclerview_fragment
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_second.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PresidentListAdapter.OnItemClickListener {
+
+
+    private lateinit var secondFragment: Fragment
+    private lateinit var firstFragment: Fragment
+    private val presidents: MutableList<President> = GlobalModel.presidents
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        setSupportActionBar(findViewById(R.id.toolbar))
 
-        val secondFragment = SecondFragment()
+        secondFragment = SecondFragment(this, presidents)
 
         // Change FrameLayout into First Fragment
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragment, secondFragment)
             commit()
         }
+    }
 
-/*        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
+    override fun onItemClick(position: Int) {
+        val clickedItem: President = presidents[position]
+
+
+        secondFragment.recyclerview.adapter?.notifyItemChanged(position)
+
+        firstFragment = FirstFragment(clickedItem, supportFragmentManager.popBackStackImmediate())
+
+        // Change FrameLayout into First Fragment
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment, firstFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
 }
